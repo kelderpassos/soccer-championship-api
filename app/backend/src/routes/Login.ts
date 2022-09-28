@@ -5,7 +5,7 @@ import UserController from '../controllers/UserController';
 const loginRoute = express.Router();
 const userController = new UserController();
 
-loginRoute.get('/', userController.login);
+loginRoute.post('/', userController.login);
 
 export default loginRoute;
 
