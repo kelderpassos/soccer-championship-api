@@ -13,11 +13,8 @@ RUN npm install
 COPY . .
 # copy all our project to the container
 
-EXPOSE 3001
-#expose the port where the container will run
-
-RUN npx tsc
-# compile the index
+EXPOSE 3002
+# expose the port where the container will run
 
 CMD [ "npm", "start" ]
 # starts the application
