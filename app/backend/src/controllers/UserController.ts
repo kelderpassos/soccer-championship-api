@@ -8,8 +8,8 @@ export default class UserController {
     const { email, password } = req.body;
 
     try {
-      const user = await this.newLogin.getUserByEmail(email, password);
-
+      const token = await this.newLogin.login(email, password);
+      res.status(200).json(token);
     } catch (error) {
       console.error(error);
     }
