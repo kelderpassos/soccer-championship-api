@@ -1,5 +1,6 @@
 import * as express from 'express';
 import loginRoute from './routes';
+import validations from './middlewares/validations';
 
 class App {
   public app: express.Express;
@@ -23,7 +24,7 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
-    this.app.use('/login', loginRoute);
+    this.app.use('/login', validations.requiredFields, loginRoute);
   }
 
   public start(PORT: string | number):void {

@@ -1,20 +1,45 @@
-// import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
-// import UserService from '../services/UserService';
+import UserService from '../services/UserService';
 
-// const service = new UserService();
+const service = new UserService();
 
-// const validations = {
-//   requiredFields: async (req: Request, res: Response, next: NextFunction) => {
-//     const { email } = req.body;
-//     const
-//   },
+const validations = {
+  requiredFields: (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
+    if (!email || email.length === 0) {
+      res.status(400).json({ message: 'All fields must be filled' });
+    }
 
-//   login: async (req: Request, res: Response, next: NextFunction) => {
-//     const { email, password } = req.body;
+    if (!password || password.length === 0) {
+      res.status(400).json({ message: 'All fields must be filled' });
+    }
 
-//     const validUser = await service.login(email, password);
+    next();
+  },
+  validInformation: async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
 
-//     if (!validUser) throw new Error('');
-//   },
-// };
+    const user = await service.login(email, password);
+
+    if (email !== user.email) {
+      res.status(401).json({ message: 'Incorrect email or password' });
+    }
+
+    if (password !== user.password) {
+      res.status(401).json({ message: 'Incorrect email or password' });
+    }
+
+    next();
+  },
+
+  // login: async (req: Request, res: Response, next: NextFunction) => {
+  //   const { email, password } = req.body;
+
+  //   const validUser = await service.login(email, password);
+
+  //   if (!validUser) throw new Error('');
+  // },
+};
+
+export default validations;

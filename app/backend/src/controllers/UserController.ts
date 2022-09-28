@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import UserService from '../services/UserService';
+import auth from '../middlewares/auth';
 
 export default class UserController {
   private newLogin = new UserService();
@@ -8,10 +9,15 @@ export default class UserController {
     const { email, password } = req.body;
 
     try {
-      const token = await this.newLogin.login(email, password);
+      await this.newLogin.login(email, password);
+      const token = auth.createToken(email);
       res.status(200).json({ token });
     } catch (error) {
       console.error(error);
     }
+  };
+
+  public validate = async (req: Request, res: Response) => {
+    const { authorization }
   };
 }
