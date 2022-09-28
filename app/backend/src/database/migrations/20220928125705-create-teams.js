@@ -11,7 +11,7 @@ module.exports = {
       },
       team_name :{
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       }
     });
   },

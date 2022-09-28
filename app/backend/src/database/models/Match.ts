@@ -29,7 +29,7 @@ Match.init({
     allowNull: false,
     type: INTEGER,
   },
-  awayTeamGoal: {
+  awayTeamGoals: {
     allowNull: false,
     type: INTEGER,
   },
