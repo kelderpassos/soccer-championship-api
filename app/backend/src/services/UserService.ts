@@ -1,16 +1,19 @@
 import { compare } from 'bcryptjs';
-import IUser from '../interfaces/User.interface';
-import User from '../database/models/User';
+import UserModel from '../models/UserModel';
+import auth from '../middlewares/auth';
 
 export default class UserService {
-  public login = async (email: string, password: string): Promise<IUser> => {
-    const user = await User.findOne({ where: { email } });
+  public login = async (email: string, password: string): Promise<string> => {
+    const model = new UserModel();
 
-    if (!user) throw new Error('Email or password are invalid');
-    const validation = compare(password, user?.password);
+    const user = await model.login(email);
 
-    if (!validation) throw new Error('Invalid password');
+    if (!user) return 'User not found';
+    const validation = await compare(password, user?.password);
 
-    return user;
+    if (validation === false) return 'Password doesn\t match';
+
+    const token = auth.createToken(email);
+    return token;
   };
 }

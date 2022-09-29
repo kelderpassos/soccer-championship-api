@@ -1,37 +1,36 @@
 import { Request, Response, NextFunction } from 'express';
-
 import UserService from '../services/UserService';
 
 const service = new UserService();
 
 const validations = {
-  requiredFields: (req: Request, res: Response, next: NextFunction) => {
+  requiredFields: async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    if (!email || email.length === 0) {
-      res.status(400).json({ message: 'All fields must be filled' });
+    if (!email || !password) {
+      return res.status(400).json({ message: 'All fields must be filled' });
     }
 
-    if (!password || password.length === 0) {
-      res.status(400).json({ message: 'All fields must be filled' });
-    }
+    // if (!password || password.length === 0) {
+    //   res.status(400).json({ message: 'All fields must be filled' });
+    // }
 
     next();
   },
-  validInformation: async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body;
+  // validInformation: async (req: Request, res: Response, next: NextFunction) => {
+  //   // const { email, password } = req.body;
 
-    const user = await service.login(email, password);
+  //   // const user = await service.login(email, password);
 
-    if (email !== user.email) {
-      res.status(401).json({ message: 'Incorrect email or password' });
-    }
+  //   // if (!user) {
+  //   //   res.status(401).json({ message: 'Incorrect email or password' });
+  //   // }
 
-    if (password !== user.password) {
-      res.status(401).json({ message: 'Incorrect email or password' });
-    }
+  //   // if (password !== user.password) {
+  //   //   res.status(401).json({ message: 'Incorrect email or password' });
+  //   // }
 
-    next();
-  },
+  //   next();
+  // },
 
   // login: async (req: Request, res: Response, next: NextFunction) => {
   //   const { email, password } = req.body;

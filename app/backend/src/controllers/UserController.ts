@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import UserService from '../services/UserService';
-import auth from '../middlewares/auth';
 
 export default class UserController {
   private newLogin = new UserService();
@@ -8,16 +7,17 @@ export default class UserController {
   public login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
-    try {
-      await this.newLogin.login(email, password);
-      const token = auth.createToken(email);
-      res.status(200).json({ token });
-    } catch (error) {
-      console.error(error);
+    if (!email || !password) {
+      return res.status(400).json({ message: 'All fields must be filled' });
     }
-  };
 
-  public validate = async (req: Request, res: Response) => {
-    const { authorization }
+    const token = await this.newLogin.login(email, password);
+
+    if (token === 'User not found'
+      || token === 'Password doesn\t match') {
+      return res.status(401).json({ message: 'Incorrect email or password' });
+    }
+
+    return res.status(200).json({ token });
   };
 }

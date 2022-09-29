@@ -24,7 +24,7 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
-    this.app.use('/login', validations.requiredFields, loginRoute);
+    this.app.use('/login', loginRoute);
   }
 
   public start(PORT: string | number):void {
