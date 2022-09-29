@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs';
 import UserModel from '../models/UserModel';
 import auth from '../helpers/auth';
-import IUser from '../interfaces/User.interface';
+import { IUser } from '../interfaces/User.interface';
 
 export default class UserService {
   public login = async (email: string, password: string): Promise<string> => {

@@ -22,7 +22,7 @@ export default class UserController {
     return res.status(200).json({ token });
   };
 
-  public validate = async (req: Request, res: Response) => {
+  public validate = (req: Request, res: Response) => {
     const { authorization } = req.headers;
 
     if (!authorization) return 'error';
