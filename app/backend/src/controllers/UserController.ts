@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import UserService from '../services/UserService';
+import auth from '../helpers/auth';
 
 export default class UserController {
   private newLogin = new UserService();
@@ -19,5 +20,16 @@ export default class UserController {
     }
 
     return res.status(200).json({ token });
+  };
+
+  public validate = async (req: Request, res: Response) => {
+    const { authorization } = req.headers;
+
+    if (!authorization) return 'error';
+
+    const validToken = auth.accessAllowed(authorization);
+    console.log(validToken);
+
+    return res.status(200).json({ role: validToken.role });
   };
 }

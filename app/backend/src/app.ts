@@ -1,6 +1,5 @@
 import * as express from 'express';
 import loginRoute from './routes';
-import validations from './middlewares/validations';
 
 class App {
   public app: express.Express;

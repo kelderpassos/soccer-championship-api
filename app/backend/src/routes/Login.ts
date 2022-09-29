@@ -6,6 +6,7 @@ const loginRoute = express.Router();
 const userController = new UserController();
 
 loginRoute.post('/', userController.login);
+loginRoute.get('/validate', userController.validate);
 
 export default loginRoute;
 
