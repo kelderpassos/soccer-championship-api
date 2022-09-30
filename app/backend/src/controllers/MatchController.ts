@@ -12,4 +12,12 @@ export default class MatchController {
       console.error(error);
     }
   };
+
+  public getOnGoingMatches = async (req: Request, res: Response) => {
+    const { q } = req.query;
+
+    const matchesInProgress = await this.matchService.getOnGoingMatches(q);
+
+    return res.status(200).json(matchesInProgress);
+  };
 }

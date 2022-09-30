@@ -15,7 +15,6 @@ const auth = {
     if (!JWT_SECRET) throw new Error('Secret cannot be found');
 
     const { role } = verify(token, JWT_SECRET) as JwtPayload;
-    console.log(role);
 
     return role;
   },
