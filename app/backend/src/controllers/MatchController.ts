@@ -12,7 +12,7 @@ export default class MatchController {
     this.getAllMatches(request, response);
   };
 
-  getAllMatches = async (_req: Request, res: Response) => {
+  public getAllMatches = async (_req: Request, res: Response) => {
     try {
       const allMatches = await this.matchService.getAllMatches();
       return res.status(200).json(allMatches);
@@ -21,7 +21,7 @@ export default class MatchController {
     }
   };
 
-  getOnGoingMatches = async (req: Request, res: Response) => {
+  public getOnGoingMatches = async (req: Request, res: Response) => {
     const { inProgress } = req.query;
 
     const stringInProgress = String(inProgress);
@@ -29,5 +29,17 @@ export default class MatchController {
     const matchesInProgress = await this.matchService.getOnGoingMatches(stringInProgress);
 
     return res.status(200).json(matchesInProgress);
+  };
+
+  public createMatch = async (req: Request, res: Response) => {
+    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
+
+    try {
+      const newMatch = await this.matchService
+        .createMatch({ homeTeam, awayTeam, homeTeamGoals, awayTeamGoals });
+      return res.status(201).json(newMatch);
+    } catch (error) {
+      console.error(error);
+    }
   };
 }

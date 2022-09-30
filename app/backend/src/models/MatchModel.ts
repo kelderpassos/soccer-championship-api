@@ -1,13 +1,14 @@
-import Team from '../database/models/Team';
 import Match from '../database/models/Match';
+import modelQueries from './helpers/queries';
+import matchTypes from '../helpers/matchTypes';
 
 export default class MatchModel {
   public getAllMatches = async (): Promise<Match[]> => Match
-    .findAll({ include: [{ model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
-      { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } }] });
+    .findAll(modelQueries.getAllMatches);
 
   public getOnGoingMatches = async (inProgress:string): Promise<Match[]> => Match
-    .findAll({ include: [{ model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
-      { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } }],
-    where: { inProgress } });
+    .findAll({ include: modelQueries.getOnGoingMatches, where: { inProgress } });
+
+  public createMatch = async (matchInfos: matchTypes): Promise<Match> =>
+    Match.create({ ...matchInfos, inProgress: 'true' });
 }
