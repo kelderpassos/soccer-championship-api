@@ -8,4 +8,10 @@ export default class TeamService {
     const allTeams = await this.teamModel.getAllTeams();
     return allTeams;
   };
+
+  public getTeamById = async (id: string) => {
+    const teamById = await this.teamModel.getTeamById(id);
+
+    return teamById;
+  };
 }
