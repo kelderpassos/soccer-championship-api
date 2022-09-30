@@ -13,11 +13,11 @@ export default class MatchController {
     }
   };
 
-  public getOnGoingMatches = async (req: Request, res: Response) => {
-    const { q } = req.query;
+  // public getOnGoingMatches = async (req: Request, res: Response) => {
+  //   // const { q } = req.query;
 
-    const matchesInProgress = await this.matchService.getOnGoingMatches(q);
+  //   // const matchesInProgress = await this.matchService.getOnGoingMatches(q);
 
-    return res.status(200).json(matchesInProgress);
-  };
+  //   // return res.status(200).json(matchesInProgress);
+  // };
 }
