@@ -13,7 +13,7 @@ export default class UserService {
 
     const validation = await compare(password, user?.password);
 
-    if (validation === false) return 'Password doesn\t match';
+    if (!validation) return 'Password doesn\t match';
 
     const token = auth.createToken({ id: user.id, role: user.role });
     return token;
