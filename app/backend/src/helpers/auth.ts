@@ -11,12 +11,13 @@ const auth = {
     const token = sign(payload, JWT_SECRET, { expiresIn: '1d' });
     return token;
   },
-  accessAllowed: (token: string): JwtPayload => {
+  accessAllowed: (token: string) => {
     if (!JWT_SECRET) throw new Error('Secret cannot be found');
 
-    const verification = verify(token, JWT_SECRET) as JwtPayload;
+    const { role } = verify(token, JWT_SECRET) as JwtPayload;
+    console.log(role);
 
-    return verification;
+    return role;
   },
 };
 

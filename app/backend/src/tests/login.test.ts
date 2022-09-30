@@ -7,6 +7,8 @@ import { Response } from 'superagent';
 import chaiHttp = require('chai-http')
 import UserController from '../controllers/UserController';
 import auth from '../helpers/auth';
+import User from '../database/models/User';
+import { verify } from 'crypto';
 
 chai.use(chaiHttp)
 const { expect } = chai;
@@ -35,10 +37,13 @@ describe('/login', () => {
       expect(response.status).to.equal(200);
     });
 
-    it('should return a token', async () => {
-      const response = await chai.request(app).post('/login').send(mockBody);
+    it('should return the user\'s role', async () => {
+      await chai.request(app).get('/login/validate').send();
+      // sinon.stub(controller, 'validate').resolves(mockAuth.role)
+      sinon.stub(auth, 'accessAllowed').resolves(mockAuth.role);
 
-      expect(response.body).to.equal(mockResponse);
+
+      expect(response).to.equal('admin');
     });
 
     it('should return an error if there\'s no email or password', async () => {
@@ -46,5 +51,14 @@ describe('/login', () => {
 
       expect(response.status).to.equal(400);
     });    
+
+    it('should return an error if email or password are wrong', async () => {
+
+      sinon.stub(User, 'findOne').resolves(undefined);
+
+      const response = await chai.request(app).post('/login').send(mockBody);
+
+      expect(response.status).to.equal(401);
+    });   
   });
 });

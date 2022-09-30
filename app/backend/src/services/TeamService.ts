@@ -4,14 +4,6 @@ import TeamModel from '../models/TeamModel';
 export default class TeamService {
   private teamModel = new TeamModel();
 
-  public getAllTeams = async (): Promise<Team[]> => {
-    const allTeams = await this.teamModel.getAllTeams();
-    return allTeams;
-  };
-
-  public getTeamById = async (id: string) => {
-    const teamById = await this.teamModel.getTeamById(id);
-
-    return teamById;
-  };
+  public getAllTeams = async (): Promise<Team[]> => this.teamModel.getAllTeams();
+  public getTeamById = async (id: string): Promise<Team | null> => this.teamModel.getTeamById(id);
 }

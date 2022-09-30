@@ -27,8 +27,8 @@ export default class UserController {
 
     if (!authorization) return 'error';
 
-    const validToken = auth.accessAllowed(authorization);
+    const role = auth.accessAllowed(authorization);
 
-    return res.status(200).json({ role: validToken.role });
+    return res.status(200).json({ role });
   };
 }

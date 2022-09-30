@@ -1,13 +1,14 @@
-import { Model, INTEGER } from 'sequelize';
+import { Model, INTEGER, BOOLEAN } from 'sequelize';
 import db from '.';
 import Team from './Team';
 
 class Match extends Model {
-  public id: number;
-  public username: string;
-  public role: string;
-  public email: string;
-  public password: string;
+  id!: number;
+  homeTeam!: number;
+  awayTeam!: number;
+  homeTeamGoals!: number;
+  awayTeamGoals!: number;
+  inProgress!: number;
 }
 
 Match.init({
@@ -35,7 +36,7 @@ Match.init({
   },
   inProgress: {
     allowNull: false,
-    type: INTEGER,
+    type: BOOLEAN,
   },
 }, {
   sequelize: db,
