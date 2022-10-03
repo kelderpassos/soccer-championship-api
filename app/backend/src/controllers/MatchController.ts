@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { decode } from 'jsonwebtoken';
 import MatchService from '../services/MatchService';
 
 export default class MatchController {
@@ -33,6 +34,13 @@ export default class MatchController {
 
   public createMatch = async (req: Request, res: Response) => {
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
+    const { authorization } = req.headers;
+
+    if (!authorization) throw new Error('No header provided');
+
+    const validToken = decode(authorization);
+
+    if (!validToken) return res.status(401).json({ message: 'Token must be a valid token' });
 
     if (homeTeam === awayTeam) {
       return res.status(401)

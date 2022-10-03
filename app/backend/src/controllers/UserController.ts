@@ -25,7 +25,7 @@ export default class UserController {
   public validate = (req: Request, res: Response) => {
     const { authorization } = req.headers;
 
-    if (!authorization) return 'error';
+    if (!authorization) throw new Error('No header provided');
 
     const role = auth.accessAllowed(authorization);
 
