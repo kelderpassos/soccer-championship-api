@@ -5,12 +5,12 @@ import MatchService from '../services/MatchService';
 export default class MatchController {
   matchService = new MatchService();
 
-  public verifyRoute = async (request: Request, response: Response) => {
-    if (request.query.inProgress) {
-      this.getOnGoingMatches(request, response);
+  public verifyRoute = async (req: Request, res: Response) => {
+    if (req.query.inProgress) {
+      this.getOnGoingMatches(req, res);
       return;
     }
-    this.getAllMatches(request, response);
+    this.getAllMatches(req, res);
   };
 
   public getAllMatches = async (_req: Request, res: Response) => {
@@ -25,9 +25,7 @@ export default class MatchController {
   public getOnGoingMatches = async (req: Request, res: Response) => {
     const { inProgress } = req.query;
 
-    const stringInProgress = String(inProgress);
-
-    const matchesInProgress = await this.matchService.getOnGoingMatches(stringInProgress);
+    const matchesInProgress = await this.matchService.getOnGoingMatches(String(inProgress));
 
     return res.status(200).json(matchesInProgress);
   };

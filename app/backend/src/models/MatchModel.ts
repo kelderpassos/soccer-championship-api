@@ -4,10 +4,10 @@ import matchTypes from '../helpers/matchTypes';
 
 export default class MatchModel {
   public getAllMatches = async (): Promise<Match[]> => Match
-    .findAll(modelQueries.getAllMatches);
+    .findAll({ include: modelQueries.matchInclude });
 
   public getOnGoingMatches = async (inProgress:string): Promise<Match[]> => Match
-    .findAll({ include: modelQueries.getOnGoingMatches, where: { inProgress } });
+    .findAll({ include: modelQueries.matchInclude, where: { inProgress } });
 
   public createMatch = async (matchInfos: matchTypes): Promise<Match> =>
     Match.create({ ...matchInfos, inProgress: 'true' });
