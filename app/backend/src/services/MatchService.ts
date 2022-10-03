@@ -30,4 +30,8 @@ export default class MatchService {
 
   public changeStatus = async (id: string) =>
     this.matchModel.changeStatus(id);
+
+  public updateOnGoingMatches =
+  async (id: string, updates: { homeTeamGoals: string, awayTeamGoals: string }) =>
+    this.matchModel.updateOnGoingMatches(id, updates);
 }

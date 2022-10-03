@@ -67,4 +67,16 @@ export default class MatchController {
       console.error(error);
     }
   };
+
+  public updateOnGoingMatches = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    try {
+      await this.matchService
+        .updateOnGoingMatches(id, { homeTeamGoals, awayTeamGoals });
+      return res.status(200).json({ message: 'Score updated succesfully' });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }
