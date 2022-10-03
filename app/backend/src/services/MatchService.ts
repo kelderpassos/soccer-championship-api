@@ -11,8 +11,11 @@ export default class MatchService {
     (query === 'false' ? this.matchModel.getOnGoingMatches('0')
       : this.matchModel.getOnGoingMatches('1'));
 
-  public createMatch = async (matchInfos: matchTypes): Promise<Match> =>
-    this.matchModel.createMatch(matchInfos);
+  public createMatch = async (matchInfos: matchTypes): Promise<Match> => {
+    console.log(matchInfos);
+
+    return this.matchModel.createMatch(matchInfos);
+  };
 
   public changeStatus = async (id: string) =>
     this.matchModel.changeStatus(id);
