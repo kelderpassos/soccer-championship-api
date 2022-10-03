@@ -39,13 +39,14 @@ export default class MatchController {
         .json({ message: 'It is not possible to create a match with two equal teams' });
     }
 
-    try {
-      const newMatch = await this.matchService
-        .createMatch({ homeTeam, awayTeam, homeTeamGoals, awayTeamGoals });
-      return res.status(201).json(newMatch);
-    } catch (error) {
-      console.error(error);
+    const newMatch = await this.matchService
+      .createMatch({ homeTeam, awayTeam, homeTeamGoals, awayTeamGoals });
+
+    if (!newMatch) {
+      return res.status(404).json({ message: 'There is no team with such id!' });
     }
+
+    return res.status(201).json(newMatch);
   };
 
   public changeStatus = async (req: Request, res: Response) => {
