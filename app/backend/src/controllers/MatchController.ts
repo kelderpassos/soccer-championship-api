@@ -42,4 +42,15 @@ export default class MatchController {
       console.error(error);
     }
   };
+
+  public changeStatus = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      await this.matchService
+        .changeStatus(id);
+      return res.status(200).json({ message: 'Finished' });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }

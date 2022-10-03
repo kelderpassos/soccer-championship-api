@@ -13,4 +13,7 @@ export default class MatchService {
 
   public createMatch = async (matchInfos: matchTypes): Promise<Match> =>
     this.matchModel.createMatch(matchInfos);
+
+  public changeStatus = async (id: string) =>
+    this.matchModel.changeStatus(id);
 }

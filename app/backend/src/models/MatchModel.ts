@@ -11,4 +11,11 @@ export default class MatchModel {
 
   public createMatch = async (matchInfos: matchTypes): Promise<Match> =>
     Match.create({ ...matchInfos, inProgress: 'true' });
+
+  public changeStatus = async (id: string): Promise<[number, Match[]]> =>
+    Match.update({ inProgress: 'false' }, { where: { id } });
 }
+
+// const teste = await Match.update({ inProgress: { bool } }, { where: { id } });
+
+//     return teste[1];
