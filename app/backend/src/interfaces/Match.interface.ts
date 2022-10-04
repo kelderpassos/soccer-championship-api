@@ -5,10 +5,10 @@ type typeTeamName = {
 export default interface IMatch {
   id?: number;
   homeTeam?: number;
-  homeTeamGoals?: number;
+  homeTeamGoals: number;
   awayTeam?: number;
-  awayTeamGoals?: number;
+  awayTeamGoals: number;
   inProgress?: string;
-  teamHome?: typeTeamName;
-  teamAway?: typeTeamName;
+  teamHome: typeTeamName;
+  teamAway: typeTeamName;
 }

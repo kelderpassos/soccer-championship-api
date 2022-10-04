@@ -12,7 +12,4 @@ export default class LeaderBoardModel {
 
   public getAllTeams = async () =>
     Team.findAll();
-
-  // public getTeamsAndMatches = async () => Match
-  //   .findAll({ include: modelQueries.teamInclude, where: { inProgress: '0' } });
 }
