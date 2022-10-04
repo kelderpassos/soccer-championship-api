@@ -1,13 +1,12 @@
 import { compare } from 'bcryptjs';
 import UserModel from '../models/UserModel';
 import auth from '../helpers/auth';
-import { IUser } from '../interfaces/User.interface';
 
 export default class UserService {
   public login = async (email: string, password: string): Promise<string> => {
     const model = new UserModel();
 
-    const user = await model.login(email) as IUser & { id: number };
+    const user = await model.login(email);
 
     if (!user) return 'User not found';
 

@@ -13,6 +13,27 @@ type MatchType = {
   teamAway?: typeTeamName;
 };
 
+type TeamType = {
+  id?: number;
+  teamName: string;
+};
+
+type TeamModelType = {
+  getAllTeams(): Promise<TeamType>
+};
+
+type UserType = {
+  id?: number;
+  username: string;
+  role: string;
+  email: string;
+  password: string;
+};
+
+type UserModelType = {
+  login(): Promise<UserType>
+};
+
 type LeaderBoardType = {
   name: string,
   totalPoints: number,
@@ -26,4 +47,4 @@ type LeaderBoardType = {
   efficiency: string
 };
 
-export { LeaderBoardType, MatchType };
+export { LeaderBoardType, MatchType, TeamModelType, UserModelType };

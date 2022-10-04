@@ -1,5 +1,3 @@
-import { IUser, IUserModel } from '../../interfaces/User.interface'
-
 const mockUser: IUser = {
   id: 1,
   username: 'admin',
