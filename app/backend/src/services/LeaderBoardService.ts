@@ -3,43 +3,41 @@ import LeaderBoardModel from '../models/LeaderBoardModel';
 export default class LeaderBoardService {
   private leaderBoardModel = new LeaderBoardModel();
 
-  getAllFinishedMatches = async () => this.leaderBoardModel.getAllFinishedMatches();
+  getFinishedMatchesData = async () => {
+    const allMatches = await this.leaderBoardModel.getAllFinishedMatches();
+    const data = allMatches.map(({
+      teamHome, homeTeamGoals, awayTeamGoals, teamAway,
+    }) => ({ teamHome, homeTeamGoals, teamAway, awayTeamGoals }));
+
+    return data;
+  };
 
   public getHomeTeamVictories = async () => {
-    const allMatches = await this.getAllFinishedMatches();
+    const rawData = await this.getFinishedMatchesData();
 
-    const victories = allMatches.filter(({ homeTeamGoals, awayTeamGoals }) =>
-      Number(homeTeamGoals) > Number(awayTeamGoals));
-
-    return victories;
-  };
-
-  public getHomeTeamDefeats = async () => {
-    const allMatches = await this.getAllFinishedMatches();
-    const defeats = allMatches.filter(({ homeTeamGoals, awayTeamGoals }) =>
-      Number(homeTeamGoals) < Number(awayTeamGoals));
-
-    return defeats;
-  };
-
-  public getHomeTeamTies = async () => {
-    const allMatches = await this.getAllFinishedMatches();
-    const victories = allMatches.filter(({ homeTeamGoals, awayTeamGoals }) =>
-      Number(homeTeamGoals) === Number(awayTeamGoals));
+    const victories = rawData.filter(({ homeTeamGoals, awayTeamGoals }) =>
+      Number(homeTeamGoals) > Number(awayTeamGoals))
+      .reduce((acc, { teamHome, homeTeamGoals }) => {
+        console.log(teamHome, homeTeamGoals);
+        return acc;
+      }, 0);
 
     return victories;
   };
 
-  public getTeamGoalsFavor = async () => {
-    const allMatches = await this.getAllFinishedMatches();
-    const goalsFavor = allMatches.reduce((acc, { homeTeam, homeTeamGoals }) => {
-      const teste = {
-        name: homeTeam,
-        goalsFavor: acc + homeTeamGoals,
-      };
-      return teste;
-    }, 0);
+  // public getHomeTeamDefeats = async () => {
+  //   const allMatches = await this.getAllFinishedMatches();
+  //   const defeats = allMatches.filter(({ homeTeamGoals, awayTeamGoals }) =>
+  //     Number(homeTeamGoals) < Number(awayTeamGoals));
 
-    return goalsFavor;
-  };
+  //   return defeats;
+  // };
+
+  // public getHomeTeamTies = async () => {
+  //   const allMatches = await this.getAllFinishedMatches();
+  //   const victories = allMatches.filter(({ homeTeamGoals, awayTeamGoals }) =>
+  //     Number(homeTeamGoals) === Number(awayTeamGoals));
+
+  //   return victories;
+  // };
 }
