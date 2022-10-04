@@ -1,7 +1,7 @@
 import TeamModel from '../models/TeamModel';
 import Match from '../database/models/Match';
 import MatchModel from '../models/MatchModel';
-import matchTypes from '../helpers/matchTypes';
+import { MatchType } from '../types/index';
 
 export default class MatchService {
   matchModel = new MatchModel();
@@ -13,7 +13,7 @@ export default class MatchService {
     (query === 'false' ? this.matchModel.getOnGoingMatches('0')
       : this.matchModel.getOnGoingMatches('1'));
 
-  public createMatch = async (matchInfos: matchTypes): Promise<Match | null > => {
+  public createMatch = async (matchInfos: MatchType): Promise<Match | null > => {
     const getAllTeams = await this.teamModel.getAllTeams();
 
     const checkIfHomeTeamExists = getAllTeams

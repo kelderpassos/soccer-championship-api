@@ -1,6 +1,6 @@
 import Match from '../database/models/Match';
 import modelQueries from './helpers/queries';
-import matchTypes from '../helpers/matchTypes';
+import { MatchType } from '../types/index';
 
 export default class MatchModel {
   public getAllMatches = async (): Promise<Match[]> => Match
@@ -9,7 +9,7 @@ export default class MatchModel {
   public getOnGoingMatches = async (inProgress:string): Promise<Match[]> => Match
     .findAll({ include: modelQueries.matchInclude, where: { inProgress } });
 
-  public createMatch = async (matchInfos: matchTypes): Promise<Match> =>
+  public createMatch = async (matchInfos: MatchType): Promise<Match> =>
     Match.create({ ...matchInfos, inProgress: 'true' });
 
   public changeStatus = async (id: string): Promise<[number, Match[]]> =>
