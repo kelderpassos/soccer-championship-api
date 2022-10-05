@@ -5,7 +5,7 @@ import { app } from '../app';
 import chaiHttp = require('chai-http');
 import User from '../database/models/User';
 import * as Jwt from 'jsonwebtoken';
-import { mockToken, mockBody } from './mocks/UserModelMocks'
+import { mockToken, mockBody } from './mocks/loginMocks'
 
 chai.use(chaiHttp)
 const { expect } = chai;
@@ -31,7 +31,6 @@ describe('/login', () => {
     });    
 
     it('should return an error if email or password are wrong', async () => {
-
       sinon.stub(User, 'findOne').resolves(undefined);
 
       const response = await chai.request(app).post('/login').send(mockBody);
@@ -55,7 +54,7 @@ describe('Tests /login/validate', () => {
     expect(response.body.role).to.equal('admin');
   });
 
-  it('should return the user\'s role', async () => {
+  it('should an error in case there\'s no token', async () => {
     sinon.stub(Jwt, 'verify').returns({ role: 'admin' } as any);
     
     const response = await chai.request(app).get('/login/validate');

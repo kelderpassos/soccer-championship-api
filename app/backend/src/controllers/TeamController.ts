@@ -9,7 +9,7 @@ export default class TeamController {
       const allTeams = await this.teamService.getAllTeams();
       return res.status(200).json(allTeams);
     } catch (error) {
-      console.error(error);
+      return res.status(404).json({ message: 'Teams cannot be retrieved ' });
     }
   };
 
@@ -20,7 +20,7 @@ export default class TeamController {
       const teamById = await this.teamService.getTeamById(id);
       return res.status(200).json(teamById);
     } catch (error) {
-      console.error(error);
+      return res.status(404).json({ message: 'Teams cannot be retrieved ' });
     }
   };
 }
