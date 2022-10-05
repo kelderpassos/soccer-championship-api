@@ -1,30 +1,17 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import * as mocha from 'mocha'
-import { app } from '../app'
-import { Response } from 'superagent';
+import { app } from '../app';
 // @ts-ignore
-import chaiHttp = require('chai-http')
-import UserController from '../controllers/UserController';
+import chaiHttp = require('chai-http');
 import User from '../database/models/User';
 import * as Jwt from 'jsonwebtoken';
+import { mockToken, mockBody } from './mocks/UserModelMocks'
 
 chai.use(chaiHttp)
 const { expect } = chai;
 
-const mockBody = {
-  email: "admin@admin.com",
-  password: "secret_admin"
-}
-
-const mockResponse = {
-  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc" 
-}
-const mockAuth = { id: 1, role: 'admin', iat: 1664479422, exp: 1664565822 }
-
 describe('/login', () => {
   describe('POST', () => {
-    const controller = new UserController()
 
     afterEach(() => {
       sinon.restore();
@@ -62,7 +49,7 @@ describe('Tests /login/validate', () => {
   it('should return the user\'s role', async () => {
     sinon.stub(Jwt, 'verify').returns({ role: 'admin' } as any);
     
-    const response = await chai.request(app).get('/login/validate').set('Authorization', mockResponse.token);
+    const response = await chai.request(app).get('/login/validate').set('Authorization', mockToken);
 
     expect(response.status).to.equal(200);
     expect(response.body.role).to.equal('admin');

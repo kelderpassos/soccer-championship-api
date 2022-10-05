@@ -1,18 +1,8 @@
-import { UserType } from "../../types";
+const mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc" 
 
-const mockUser: UserType = {
-  id: 1,
-  username: 'admin',
-  role: 'admin',
-  email: 'admin@admin.com',
-  password: 'admin_password',
+const mockBody = {
+  email: "admin@admin.com",
+  password: "secret_admin"
 }
 
-class UserModelMock {
-  async findOne(): Promise<UserType> {
-    return mockUser;
-  }
-  
-}
-
-export { UserModelMock };
+export { mockToken, mockBody };
