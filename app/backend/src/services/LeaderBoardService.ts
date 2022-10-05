@@ -29,7 +29,7 @@ export default class LeaderBoardService {
 
     // executing the calculator to every team and sending the games that they're guests
     return teams.map((team) => new LeaderBoardCalcultator(team, matches
-      .filter((match) => match.awayTeam === team.id)));
+      .filter((match) => match.awayTeam === team.id)).finalBoard());
   };
 
   public getAllMatches = async () => {

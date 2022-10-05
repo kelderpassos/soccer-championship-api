@@ -1,6 +1,5 @@
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
-import { MatchType } from '../types';
 
 export default class LeaderBoardCalcultator {
   // the initial values of the board
@@ -14,7 +13,7 @@ export default class LeaderBoardCalcultator {
   private _goalsFavor = 0;
   private _goalsOwn = 0;
   private _goalsBalance = 0;
-  private _efficiency = 0;
+  private _efficiency = '';
 
   // the calculator will receive the matches and the teams to select who's the host or guest
   constructor(team: Team, matches: Match[]) {
@@ -22,6 +21,8 @@ export default class LeaderBoardCalcultator {
     this._matches = matches;
 
     this._matches.forEach(this.calculateResults);
+    this._totalPoints = (this._totalVictories * 3) + (this._totalDraws);
+    this._efficiency = ((this._totalPoints / (this._totalGames * 3)) * 100).toFixed(2);
     this.finalBoard();
   }
 
@@ -44,6 +45,7 @@ export default class LeaderBoardCalcultator {
     this.calculateVictories(match);
     this.calculateDraws(match);
     this.calculateDefeats(match);
+    this.sumAllGames(match);
   };
 
   calculateGoals = (match: Match): void => {
@@ -53,13 +55,13 @@ export default class LeaderBoardCalcultator {
     if (id === homeTeam) {
       this._goalsFavor += homeTeamGoals;
       this._goalsOwn += awayTeamGoals;
-      this._goalsBalance = homeTeamGoals - awayTeamGoals;
+      this._goalsBalance += homeTeamGoals - awayTeamGoals;
     }
 
     if (id === awayTeam) {
       this._goalsFavor += awayTeamGoals;
       this._goalsOwn += homeTeamGoals;
-      this._goalsBalance = awayTeamGoals - homeTeamGoals;
+      this._goalsBalance += awayTeamGoals - homeTeamGoals;
     }
   };
 
@@ -107,13 +109,25 @@ export default class LeaderBoardCalcultator {
       ? this._totalLosses += 1 : this._totalLosses;
 
     const awayTeamDefeats = homeTeamGoals > awayTeamGoals
-      ? this._totalDraws += 1 : this._totalDraws;
+      ? this._totalLosses += 1 : this._totalLosses;
 
     if (id === homeTeam) {
       this._totalLosses = homeTeamDefeats;
     }
     if (id === awayTeam) {
       this._totalLosses = awayTeamDefeats;
+    }
+  };
+
+  sumAllGames = (match: Match): void => {
+    const { id } = this._team;
+    const { awayTeam, homeTeam } = match;
+
+    if (id === homeTeam) {
+      this._totalGames = this._totalVictories + this._totalDraws + this._totalLosses;
+    }
+    if (id === awayTeam) {
+      this._totalGames = this._totalVictories + this._totalDraws + this._totalLosses;
     }
   };
 }
