@@ -6,9 +6,8 @@ import { Response } from 'superagent';
 // @ts-ignore
 import chaiHttp = require('chai-http')
 import UserController from '../controllers/UserController';
-import auth from '../helpers/auth';
 import User from '../database/models/User';
-import { verify } from 'crypto';
+import * as Jwt from 'jsonwebtoken';
 
 chai.use(chaiHttp)
 const { expect } = chai;
@@ -29,22 +28,14 @@ describe('/login', () => {
 
     afterEach(() => {
       sinon.restore();
-    })
+    });
 
     it('should login successfully', async () => {
       const response = await chai.request(app).post('/login').send(mockBody);
 
       expect(response.status).to.equal(200);
     });
-
-    it('should return the user\'s role', async () => {
-      await chai.request(app).get('/login/validate').send();
-      // sinon.stub(controller, 'validate').resolves(mockAuth.role)
-      sinon.stub(auth, 'accessAllowed').resolves(mockAuth.role);
-
-
-      expect(response).to.equal('admin');
-    });
+    
 
     it('should return an error if there\'s no email or password', async () => {
       const response = await chai.request(app).post('/login').send();
@@ -59,6 +50,30 @@ describe('/login', () => {
       const response = await chai.request(app).post('/login').send(mockBody);
 
       expect(response.status).to.equal(401);
-    });   
+    });
+  });
+});
+
+describe('Tests /login/validate', () => {
+  afterEach(() => {
+    sinon.restore();
+  });
+
+  it('should return the user\'s role', async () => {
+    sinon.stub(Jwt, 'verify').returns({ role: 'admin' } as any);
+    
+    const response = await chai.request(app).get('/login/validate').set('Authorization', mockResponse.token);
+
+    expect(response.status).to.equal(200);
+    expect(response.body.role).to.equal('admin');
+  });
+
+  it('should return the user\'s role', async () => {
+    sinon.stub(Jwt, 'verify').returns({ role: 'admin' } as any);
+    
+    const response = await chai.request(app).get('/login/validate');
+
+    expect(response.status).to.equal(401);
+    expect(response.body.message).to.equal('no valid token');
   });
 });

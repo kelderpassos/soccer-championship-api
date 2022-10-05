@@ -14,7 +14,7 @@ export default class LeaderBoardController {
   public awayTeamStatus = async (_req: Request, res: Response) => {
     const boardResults = await this.leaderBoardService.getAwayMatches();
 
-    return res.status(200).json(boardResults);
+    return res.status(200).json(boardResults.sort(boardSorter));
   };
 
   public allMatchesStatus = async (_req: Request, res: Response) => {

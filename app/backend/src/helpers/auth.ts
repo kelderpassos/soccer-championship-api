@@ -1,4 +1,5 @@
-import { sign, verify, JwtPayload } from 'jsonwebtoken';
+import * as Jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 const { JWT_SECRET } = process.env;
 
@@ -8,13 +9,13 @@ const auth = {
 
     if (!JWT_SECRET) throw new Error('Secret cannot be found');
 
-    const token = sign(payload, JWT_SECRET, { expiresIn: '1d' });
+    const token = Jwt.sign(payload, JWT_SECRET, { expiresIn: '1d' });
     return token;
   },
   accessAllowed: (token: string) => {
     if (!JWT_SECRET) throw new Error('Secret cannot be found');
 
-    const { role } = verify(token, JWT_SECRET) as JwtPayload;
+    const { role } = Jwt.verify(token, JWT_SECRET) as Jwt.JwtPayload;
 
     return role;
   },

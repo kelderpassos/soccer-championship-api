@@ -1,4 +1,6 @@
-const mockUser: IUser = {
+import { UserType } from "../../types";
+
+const mockUser: UserType = {
   id: 1,
   username: 'admin',
   role: 'admin',
@@ -6,8 +8,8 @@ const mockUser: IUser = {
   password: 'admin_password',
 }
 
-class UserModelMock implements IUserModel {
-  async findOne(): Promise<IUser> {
+class UserModelMock {
+  async findOne(): Promise<UserType> {
     return mockUser;
   }
   

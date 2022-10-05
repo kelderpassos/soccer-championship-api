@@ -25,10 +25,13 @@ export default class UserController {
   public validate = (req: Request, res: Response) => {
     const { authorization } = req.headers;
 
-    if (!authorization) throw new Error('No header provided');
+    try {
+      if (!authorization) throw new Error('No header provided');
+      const role = auth.accessAllowed(authorization);
 
-    const role = auth.accessAllowed(authorization);
-
-    return res.status(200).json({ role });
+      return res.status(200).json({ role });
+    } catch (error) {
+      return res.status(401).json({ message: 'no valid token' });
+    }
   };
 }

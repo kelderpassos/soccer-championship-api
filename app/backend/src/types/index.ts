@@ -47,4 +47,4 @@ type LeaderBoardType = {
   efficiency: string
 };
 
-export { LeaderBoardType, MatchType, TeamModelType, UserModelType };
+export { LeaderBoardType, MatchType, TeamModelType, UserModelType, UserType };
