@@ -10,15 +10,16 @@ export default class LeaderBoardService {
   private _matchModel = new MatchModel();
 
   // getting every info I need from database
-  public getFinishedMatches = async (): Promise<Match[]> =>
-    this._matchModel.getOnGoingMatches('false');
+  public getRawData = async () => {
+    const matches = await this._matchModel.getOnGoingMatches('false');
+    const teams = await this._teamModel.getAllTeams();
 
-  public getAllTeams = async (): Promise<Team[]> => this._teamModel.getAllTeams();
+    return { teams, matches };
+  };
 
   // method to send to the class the hosts
   public getHomeMatches = async () => {
-    const teams = await this.getAllTeams();
-    const matches = await this.getFinishedMatches();
+    const { teams, matches } = await this.getRawData();
 
     // executing the calculator to every team and sending the games that they're hosts
     return teams.map((team) => new LeaderBoardCalcultator(team, matches
@@ -26,11 +27,14 @@ export default class LeaderBoardService {
   };
 
   public getAwayMatches = async () => {
-    const teams = await this.getAllTeams();
-    const matches = await this.getFinishedMatches();
+    const { teams, matches } = await this.getRawData();
 
     // executing the calculator to every team and sending the games that they're hosts
     return teams.map((team) => new LeaderBoardCalcultator(team, matches
       .filter((match) => match.awayTeam === team.id)));
+  };
+
+  public getAllMatches = async () => {
+    const { teams, matches } = await this.getRawData();
   };
 }
