@@ -1,7 +1,5 @@
 import MatchModel from '../models/MatchModel';
 import TeamModel from '../models/TeamModel';
-import Match from '../database/models/Match';
-import Team from '../database/models/Team';
 import LeaderBoardCalcultator from '../helpers/LeaderBoardCalcultator';
 
 export default class LeaderBoardService {
@@ -23,18 +21,21 @@ export default class LeaderBoardService {
 
     // executing the calculator to every team and sending the games that they're hosts
     return teams.map((team) => new LeaderBoardCalcultator(team, matches
-      .filter((match) => match.homeTeam === team.id)));
+      .filter((match) => match.homeTeam === team.id)).finalBoard());
   };
 
   public getAwayMatches = async () => {
     const { teams, matches } = await this.getRawData();
 
-    // executing the calculator to every team and sending the games that they're hosts
+    // executing the calculator to every team and sending the games that they're guests
     return teams.map((team) => new LeaderBoardCalcultator(team, matches
       .filter((match) => match.awayTeam === team.id)));
   };
 
   public getAllMatches = async () => {
     const { teams, matches } = await this.getRawData();
+
+    // sending all matches
+    return teams.map((team) => new LeaderBoardCalcultator(team, matches));
   };
 }
