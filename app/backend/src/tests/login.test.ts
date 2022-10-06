@@ -40,26 +40,29 @@ describe('/login', () => {
   });
 });
 
-describe('Tests /login/validate', () => {
-  afterEach(() => {
-    sinon.restore();
-  });
+describe('/login/validate', () => {
+  describe('GET', () => {
 
-  it('should return the user\'s role', async () => {
-    sinon.stub(Jwt, 'verify').returns({ role: 'admin' } as any);
+    afterEach(() => {
+      sinon.restore();
+    });
     
-    const response = await chai.request(app).get('/login/validate').set('Authorization', mockToken);
-
-    expect(response.status).to.equal(200);
-    expect(response.body.role).to.equal('admin');
-  });
-
-  it('should an error in case there\'s no token', async () => {
-    sinon.stub(Jwt, 'verify').returns({ role: 'admin' } as any);
+    it('should return the user\'s role', async () => {
+      sinon.stub(Jwt, 'verify').returns({ role: 'admin' } as any);
+      
+      const response = await chai.request(app).get('/login/validate').set('Authorization', mockToken);
+      
+      expect(response.status).to.equal(200);
+      expect(response.body.role).to.equal('admin');
+    });
     
-    const response = await chai.request(app).get('/login/validate');
-
-    expect(response.status).to.equal(401);
-    expect(response.body.message).to.equal('no valid token');
-  });
+    it('should an error in case there\'s no token', async () => {
+      sinon.stub(Jwt, 'verify').returns({ role: 'admin' } as any);
+      
+      const response = await chai.request(app).get('/login/validate');
+      
+      expect(response.status).to.equal(401);
+      expect(response.body.message).to.equal('no valid token');
+    });
+  })
 });

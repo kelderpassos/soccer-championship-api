@@ -1,11 +1,11 @@
 import Team from "../../database/models/Team";
 import { TeamType } from "../../types";
 
-const teamByPK = [{
+const teamMockByPK = [{
   id: 1, teamName: 'Avaí/Kindermann'
 }]
 
-const teamMocks: TeamType[] = [
+const teamMocks = [
 { id: 1, teamName: 'Avaí/Kindermann' },
 { id: 2, teamName: 'Bahia' },
 { id: 3, teamName: 'Botafogo' },
@@ -24,71 +24,4 @@ const teamMocks: TeamType[] = [
 { id: 16, teamName: 'São Paulo'}
 ];
 
-const teste = [
-	{
-		"id": 1,
-		"teamName": "Avaí/Kindermann"
-	},
-	{
-		"id": 2,
-		"teamName": "Bahia"
-	},
-	{
-		"id": 3,
-		"teamName": "Botafogo"
-	},
-	{
-		"id": 4,
-		"teamName": "Corinthians"
-	},
-	{
-		"id": 5,
-		"teamName": "Cruzeiro"
-	},
-	{
-		"id": 6,
-		"teamName": "Ferroviária"
-	},
-	{
-		"id": 7,
-		"teamName": "Flamengo"
-	},
-	{
-		"id": 8,
-		"teamName": "Grêmio"
-	},
-	{
-		"id": 9,
-		"teamName": "Internacional"
-	},
-	{
-		"id": 10,
-		"teamName": "Minas Brasília"
-	},
-	{
-		"id": 11,
-		"teamName": "Napoli-SC"
-	},
-	{
-		"id": 12,
-		"teamName": "Palmeiras"
-	},
-	{
-		"id": 13,
-		"teamName": "Real Brasília"
-	},
-	{
-		"id": 14,
-		"teamName": "Santos"
-	},
-	{
-		"id": 15,
-		"teamName": "São José-SP"
-	},
-	{
-		"id": 16,
-		"teamName": "São Paulo"
-	}
-]
-
-  export { teste, teamByPK };
+export { teamMockByPK, teamMocks };
