@@ -1,6 +1,3 @@
-import Team from "../../database/models/Team";
-import { TeamType } from "../../types";
-
 const teamMockByPK = [{
   id: 1, teamName: 'Avaí/Kindermann'
 }]

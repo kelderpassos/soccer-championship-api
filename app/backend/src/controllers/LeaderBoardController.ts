@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import boardSorter from '../helpers/boardSorter';
+import { boardSorter, boardSorterAway } from '../helpers/boardSorter';
 import LeaderBoardService from '../services/LeaderBoardService';
 
 export default class LeaderBoardController {

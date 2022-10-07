@@ -70,10 +70,10 @@ export default class LeaderBoardCalcultator {
     const { awayTeam, awayTeamGoals, homeTeam, homeTeamGoals } = match;
 
     const homeTeamVictories = homeTeamGoals > awayTeamGoals
-      ? this._totalVictories += 1 : this._totalVictories;
+      ? this._totalVictories + 1 : this._totalVictories;
 
     const awayTeamVictories = homeTeamGoals < awayTeamGoals
-      ? this._totalVictories += 1 : this._totalVictories;
+      ? this._totalVictories + 1 : this._totalVictories;
 
     if (id === homeTeam) {
       this._totalVictories = homeTeamVictories;
@@ -88,10 +88,10 @@ export default class LeaderBoardCalcultator {
     const { awayTeam, awayTeamGoals, homeTeam, homeTeamGoals } = match;
 
     const homeTeamDraws = homeTeamGoals === awayTeamGoals
-      ? this._totalDraws += 1 : this._totalDraws;
+      ? this._totalDraws + 1 : this._totalDraws;
 
     const awayTeamDraws = homeTeamGoals === awayTeamGoals
-      ? this._totalDraws += 1 : this._totalDraws;
+      ? this._totalDraws + 1 : this._totalDraws;
 
     if (id === homeTeam) {
       this._totalDraws = homeTeamDraws;
@@ -106,10 +106,10 @@ export default class LeaderBoardCalcultator {
     const { awayTeam, awayTeamGoals, homeTeam, homeTeamGoals } = match;
 
     const homeTeamDefeats = homeTeamGoals < awayTeamGoals
-      ? this._totalLosses += 1 : this._totalLosses;
+      ? this._totalLosses + 1 : this._totalLosses;
 
     const awayTeamDefeats = homeTeamGoals > awayTeamGoals
-      ? this._totalLosses += 1 : this._totalLosses;
+      ? this._totalLosses + 1 : this._totalLosses;
 
     if (id === homeTeam) {
       this._totalLosses = homeTeamDefeats;
