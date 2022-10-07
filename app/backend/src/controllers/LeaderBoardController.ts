@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { boardSorter, boardSorterAway } from '../helpers/boardSorter';
+import boardSorter from '../helpers/boardSorter';
 import LeaderBoardService from '../services/LeaderBoardService';
 
 export default class LeaderBoardController {
@@ -20,6 +20,6 @@ export default class LeaderBoardController {
   public allMatchesStatus = async (_req: Request, res: Response) => {
     const boardResults = await this.leaderBoardService.getAllMatches();
 
-    return res.status(200).json(boardResults);
+    return res.status(200).json(boardResults.sort(boardSorter));
   };
 }

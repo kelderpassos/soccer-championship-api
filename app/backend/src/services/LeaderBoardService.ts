@@ -36,6 +36,6 @@ export default class LeaderBoardService {
     const { teams, matches } = await this.getRawData();
 
     // sending all matches
-    return teams.map((team) => new LeaderBoardCalcultator(team, matches));
+    return teams.map((team) => new LeaderBoardCalcultator(team, matches).finalBoard());
   };
 }
