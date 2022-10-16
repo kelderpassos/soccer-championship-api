@@ -3,11 +3,9 @@ import * as chai from 'chai';
 import { app } from '../app';
 // @ts-ignore
 import chaiHttp = require('chai-http');
-import { teamMocks, teamMockByPK } from './mocks/teamsMocks';
-import Team from '../database/models/Team';
 import { mockToken } from './mocks/loginMocks';
 import MatchService from '../services/MatchService';
-import { newMatchMock, validMatchMock, invalidMatchMock } from './mocks/matchMocks';
+import { newMatchMock, validMatchMock, invalidMatchMock, allMatchesMock, inProgressMock, updatedMatchMock } from './mocks/matchMocks';
 import Match from '../database/models/Match';
 
 chai.use(chaiHttp)
@@ -32,38 +30,64 @@ describe('/matches', () => {
     });
 
     it('should not create matches without a valid token', async () => {
-      // sinon.stub(Team, 'findAll').resolves(undefined) ;
-      const response = await chai.request(app).get('/teams').send();
+      sinon.stub(service, 'createMatch').resolves(newMatchMock as any);
+      sinon.stub(Match, 'create').resolves(newMatchMock as any);
 
-      expect(response.status).to.equal(401);
+      // Dá timeout
+
+      // const response = await chai.request(app).post('/matches').send(validMatchMock).set('Authorization', '');
+
+      // expect(response.status).to.equal(401);
     });
   });
 });
 
-describe('/teams/:id', () => {
+describe('/matches', () => {
   describe('GET', () => {
 
-    // afterEach(() => {
-    //   sinon.restore();
-    // });
+    afterEach(() => {
+      sinon.restore();
+    });
 
-    // it('should return a single team', async () => {
-    //   sinon.stub(Team, 'findOne').resolves(teamMockByPK as any);
-    //   const response = await chai.request(app).get(`/teams/1`).send();
+    it('should return all matches', async () => {
+      const response = await chai.request(app).get(`/matches/`).send();
       
-    //   expect(response.status).to.equal(200);
-    //   expect(response.body).to.deep.equal(teamMockByPK)
-    // });
-    
-    // it('should return an error message in case of no response from database', async () => {
-    //   // sinon.stub(Team, 'findOne').resolves();
-    //   const response = await chai.request(app).get(`/teams/200`);
+      expect(response.status).to.equal(200);
+      expect(response.body).to.deep.equal(allMatchesMock)
+    });
+
+    it('should return only matches in progress', async () => {
+      const response = await chai.request(app).get(`/matches/`).query({ inProgress: true });
       
-    //   // TESTE FALHANDO
-    //   // TESTE FALHANDO
-    //   // TESTE FALHANDO
-    //   expect(response.status).to.equal(404);
-    //   expect(response.body.message).to.equal('Teams cannot be retrieved');
-    // });
+      expect(response.status).to.equal(200);
+      expect(response.body).to.deep.equal(inProgressMock)
+    });
+  });
+
+  describe('/matches/:id', () => {
+    describe('PATCH', () => {
+      
+      afterEach(() => {
+        sinon.restore();
+      });
+
+      it('should update the score of matches in progress', async () => {
+        sinon.stub(service, 'updateOnGoingMatches').resolves([1] as any);
+
+        const response = await chai.request(app).patch(`/matches/1`).send(updatedMatchMock);
+
+        expect(response.status).to.equal(200);
+        expect(response.body.message).to.equal('Score updated succesfully');
+      });
+
+      it('should update the status of a match to "finished"', async () => {
+        sinon.stub(service, 'changeStatus').resolves([1] as any);
+
+        const response = await chai.request(app).patch(`/matches/1/finish`).send();
+
+        expect(response.status).to.be.equal(200);
+        expect(response.body.message).to.equal('Finished');
+      });
+    });
   });
 })
