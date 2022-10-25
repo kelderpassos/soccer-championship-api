@@ -30,8 +30,10 @@ Após os containeres serem criados e o healthcheck terminar:
 npm start
 ```
  Uma vez rodando, pelo navegador, faça o login e acesse a plataforma pelas seguintes credenciais:
-  login: Admin </br>
+ ```
+  login: Admin
   senha: secret_admin
+ ```
 
 Caso deseje remover os containeres, rode:
 ```
@@ -102,8 +104,10 @@ After the containers were created and the healthcheck finishes:
 npm start
 ```
  Once the application is running, on your browser, log in the platform with these credentials:
-  login: Admin </br>
+ ```
+  login: Admin
   password: secret_admin
+ ```
 
 In case you want to remove the containeres, run:
 ```
